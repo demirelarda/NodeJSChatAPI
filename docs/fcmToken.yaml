@@ -111,7 +111,7 @@ paths:
                   example: "232132132313430901"
       responses:
         '200':
-          description: Token başarıyla silindi
+          description: Token successfully deleted
           content:
             application/json:
               schema:
