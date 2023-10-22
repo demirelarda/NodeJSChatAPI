@@ -1,6 +1,6 @@
 # NodeJS Chat App
 * This project is a production ready chat application that can be easily integrated into any application (mobile, web or desktop). 
-* It is aimed to prepare a ready-made system that even someone who does not have any knowledge about backend systems can easily use. That's why I tried to prepare a detailed documentation.
+* It is aimed to prepare a ready-made system that even someone who does not have any knowledge about backend systems can easily use. That's why I tried to prepare a detailed documentation. ([See documentation section](#documentation))
 
 # Features
 * JWT auth mechanism for a secure system
@@ -31,6 +31,8 @@ And put this file to the project level folder (root level) by naming it `service
 * You also need to specify an origin for socket io on the chat server. You need to add this in index.js where `const io` is specified. For example to set the socket origins to localhost port 3000, use: `origin: "http:localhost:3000"`
 
 * And you are good to go! Run `npm start` to start the server on local
+
+# Documentation
 
 * Documentation on how to use endpoints is available at `http://localhost:{YOUR_PORT_NUMBER}/api/v1/docs`
 
