@@ -8,6 +8,7 @@
 * Instant message notifications with FCM
 * Pagination system for messages
 * Indicators such as online users, typing etc.
+* Efficient use of MongoDB
 
 # Installation
 * Clone the project
