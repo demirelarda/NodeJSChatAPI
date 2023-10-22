@@ -1,0 +1,210 @@
+paths:
+  /api/v1/messages/:
+    post:
+      tags:
+        - Messages  
+      summary: Create a new message
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+          required: true
+          description: Token to authorize the user        
+      requestBody:
+        description: Message content, chat ID, receiver's ID, and type of message
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  description: The message text content.
+                  example: "Hello mate how are you?"
+                chatId:
+                  type: string
+                  description: The ID of the chat in which the message is being sent.
+                  example: "651d873a7cb5cef43c574631"
+                receiver:
+                  type: string
+                  description: The ID of the message receiver.
+                  example: "651d80fd886f58180edf7bfd"
+                type:
+                  type: string
+                  description: The type of message, e.g., text, image, etc.
+                  example: "text"
+      responses:
+        '201':
+          description: Message created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+
+  /api/v1/messages/{id}:
+    get:
+      tags:
+        - Messages   
+      summary: Retrieve all messages for a specific chat with pagination
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+          required: true
+          description: Token to authorize the user          
+        - in: path
+          name: id
+          required: true
+          description: The ID of the chat to retrieve messages from.
+          schema:
+            type: string
+            example: "651f2d8b59843e6d621e5e5e"
+        - in: query
+          name: page
+          required: false
+          description: The page number for pagination (1-indexed).
+          schema:
+            type: integer
+            example: 1            
+      responses:
+        '200':
+          description: An array of messages.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+
+  /api/v1/messages/all/{id}:
+    get:
+      tags:
+        - Messages    
+      summary: Retrieve all messages for a specific chat without pagination
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+          required: true
+          description: Token to authorize the user          
+        - in: path
+          name: id
+          required: true
+          description: The ID of the chat to retrieve messages from.
+          schema:
+            type: string
+            example: "651f2d8b59843e6d621e5e5e"
+      responses:
+        '200':
+          description: An array of messages.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+
+components:
+  schemas:
+    Message:
+      type: object
+      properties:
+        sender:
+          type: object
+          properties:
+            _id:
+              type: string
+              example: "651d8278a182a93ff5318e3d"
+            username:
+              type: string
+              example: "Arda"
+            email:
+              type: string
+              example: "arda@gmail.com"
+            profile:
+              type: string
+              example: "https://imgur.com/ua5gO8l"
+        content:
+          type: string
+          example: "Hello mate how are you?"
+        type:
+          type: string
+          example: "text"
+        receiver:
+          type: string
+          example: "651d80fd886f58180edf7bfd"
+        chat:
+          type: object
+          properties:
+            _id:
+              type: string
+              example: "651d873a7cb5cef43c574631"
+            chatName:
+              type: string
+              example: "651d8278a182a93ff5318e3d"
+            isGroupChat:
+              type: boolean
+              example: false
+            users:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
+            createdAt:
+              type: string
+              format: date-time
+              example: "2023-10-04T15:39:38.735Z"
+            updatedAt:
+              type: string
+              format: date-time
+              example: "2023-10-08T18:08:06.120Z"
+            latestMessage:
+              type: string
+              example: "6522f00543df870967eaed0c"
+        readBy:
+          type: array
+          items:
+            type: string
+        _id:
+          type: string
+          example: "65359122f8617f35a04b0c05"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2023-10-22T21:16:18.503Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2023-10-22T21:16:18.503Z"
+        __v:
+          type: integer
+          example: 0
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "651d8278a182a93ff5318e3d"
+        username:
+          type: string
+          example: "Arda"
+        email:
+          type: string
+          example: "arda@gmail.com"
+        profile:
+          type: string
+          example: "https://imgur.com/ua5gO8l"
+  securitySchemes:
+    bearerAuth:
+      type: httpAuth
+      scheme: bearer
+      bearerFormat: JWT

@@ -10,6 +10,7 @@ router.post("/", verifyToken, messageController.sendMessage);
 // GET ALL MESSAGES WITH PAGINATION
 router.get("/:id", verifyToken, messageController.allMessages);
 
+
 // GET ALL MESSAGES WITHOUT PAGINATION
 router.get("/all/:id", verifyToken, messageController.allMessagesWithoutPagination);
 

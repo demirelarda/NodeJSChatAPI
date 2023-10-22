@@ -1,0 +1,118 @@
+paths:
+  /api/v1/register:
+    post:
+      tags:
+        - Auth
+      summary: Register a new user
+      description: Create a new user account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - email
+                - password
+              properties:
+                username:
+                  type: string
+                  example: Arda
+                email:
+                  type: string
+                  format: email
+                  example: arda@gmail.com
+                password:
+                  type: string
+                  format: password
+                  example: fsTYVdq659XgNS9SlqeDs5GvAfV2
+      responses:
+        '201':
+          description: Successfully created a new user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  email:
+                    type: string
+                  password:
+                    type: string
+                  profile:
+                    type: string
+                  _id:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  __v:
+                    type: integer
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal server error
+
+  /api/v1/login:
+    post:
+      tags:
+        - Auth
+      summary: Login a user
+      description: Login with email and password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: arda@gmail.com
+                password:
+                  type: string
+                  format: password
+                  example: fsTYVdq659XgNS9SlqeDs5GvAfV2
+      responses:
+        '200':
+          description: Successfully logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  username:
+                    type: string
+                  email:
+                    type: string
+                  profile:
+                    type: string
+                  updatedAt:
+                    type: string
+                  userToken:
+                    type: string
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal server error

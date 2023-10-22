@@ -4,7 +4,8 @@ const app = express();
 const dotenv = require('dotenv');
 const admin = require('firebase-admin');
 const fs = require('fs');
-
+const swaggerUI = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
 const authRoute = require("./routes/auth");
 const chatRoute = require("./routes/chat");
 const messageRoute = require("./routes/messages");
@@ -15,6 +16,28 @@ const Token = require('./models/Token');
 const serviceAccountData = fs.readFileSync('serviceAccountKey.json'); //get your serviceAccountKey.json from firebase
 const serviceAccount = JSON.parse(serviceAccountData);
 
+const swaggerDefinition = {
+    openapi: '3.1.0',
+    info: {
+      title: 'Chat API',
+      version: '1.0.0',
+      description: 'Production Ready NodeJS Chat API',
+    },
+    servers: [
+      {
+        url: 'http://localhost:5001', //docs are on port 5001
+        description: 'Local server',
+      },
+    ],
+  };
+
+  const swaggerOptions = {
+    swaggerDefinition,
+    apis: ['./routes/*.js', './docs/*.yaml'],
+  };
+
+
+  const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -55,6 +78,7 @@ app.use("/api/v1", authRoute);
 app.use("/api/v1/chats", chatRoute);
 app.use("/api/v1/messages", messageRoute);
 app.use("/api/v1/fcm",fcmRoute);
+app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 // USE: yourServerUrl.com/api/v1/...
 

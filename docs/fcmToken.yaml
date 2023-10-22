@@ -1,0 +1,130 @@
+paths:
+  /api/v1/fcm/addToken:
+    post:
+      tags:
+        - FCM
+      summary: Adds FCM token
+      description: This endpoint is used to add a new FCM token for a user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+          required: true
+          description: Token to authorize the user        
+      requestBody:
+        description: JSON object containing user chat ID and FCM token information
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userChatId:
+                  type: string
+                  example: "651f2d7a59843e6d621e5e5a"
+                fcmToken:
+                  type: string
+                  example: "232132132313430901"
+      responses:
+        '200':
+          description: Token successfully added
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Token added successfully"
+                  tokenList:
+                    type: array
+                    items:
+                      type: string
+                    example: ["dHxL2XcbRwOlG3Lc7EKdYB:APA91bGvEi1wGU4_CFOWoVIe6TnHXorNhDXX-ZeUe2TSqcN8xOEC3uy4gPNpOytO8a6aATRbCsrn5FShlwX9U3h5ibRHy_3WqZLZUr8ErPeWZJfyMEAm_2ZF5IK7dgr_DR0aRIy6r_UZ", "232132132313430901"]
+
+  /api/v1/fcm/getTokens:
+    get:
+      tags:
+        - FCM    
+      summary: Retrieves the user's FCM tokens
+      description: This endpoint is used to receive FCM tokens for a specific user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+          required: true
+          description: Token to authorize the user    
+      responses:
+        '200':
+          description: Tokens successfully received
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  tokens:
+                    type: array
+                    items:
+                      type: string
+                    example: ["d09wEzAJS8KWY22eG_yixN:APA91bGMGIpUOYMBdCm-GGcJq5ORDtG_rR5Qif3_VJQmWgJ3yLm_psKmOIKH2eHZ65WUZjLpZ7uIIfZtE5xiPdY8zctFkB2EW0lK6EqmOEwHuGgUdT0y3GGQeDCwgX3eKiYue9Y0F9HG"]
+
+  /api/v1/fcm/deleteToken:
+    post:
+      tags:
+        - FCM    
+      summary: Bir FCM tokeni siler
+      description: This endpoint is used to delete the FCM token of a specific user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+          required: true
+          description: Token to authorize the user            
+      requestBody:
+        description: JSON object containing the user's chat ID and the FCM token to be deleted
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userChatId:
+                  type: string
+                  example: "65204af20d46b1241a416f89"
+                oldToken:
+                  type: string
+                  example: "232132132313430901"
+      responses:
+        '200':
+          description: Token başarıyla silindi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Token removed successfully"
+                  tokens:
+                    type: array
+                    items:
+                      type: string
+                    example: ["d09wEzAJS8KWY22eG_yixN:APA91bGMGIpUOYMBdCm-GGcJq5ORDtG_rR5Qif3_VJQmWgJ3yLm_psKmOIKH2eHZ65WUZjLpZ7uIIfZtE5xiPdY8zctFkB2EW0lK6EqmOEwHuGgUdT0y3GGQeDCwgX3eKiYue9Y0F9HG"]
