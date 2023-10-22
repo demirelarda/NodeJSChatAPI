@@ -16,29 +16,6 @@ const Token = require('./models/Token');
 const serviceAccountData = fs.readFileSync('serviceAccountKey.json'); //get your serviceAccountKey.json from firebase
 const serviceAccount = JSON.parse(serviceAccountData);
 
-const swaggerDefinition = {
-    openapi: '3.1.0',
-    info: {
-      title: 'Chat API',
-      version: '1.0.0',
-      description: 'Production Ready NodeJS Chat API',
-    },
-    servers: [
-      {
-        url: 'http://localhost:5001', //docs are on port 5001
-        description: 'Local server',
-      },
-    ],
-  };
-
-  const swaggerOptions = {
-    swaggerDefinition,
-    apis: ['./routes/*.js', './docs/*.yaml'],
-  };
-
-
-  const swaggerSpec = swaggerJSDoc(swaggerOptions);
-
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 }); 
@@ -66,11 +43,36 @@ function sendNotification(token, message, imageUrl) {
 
 dotenv.config()
 
+
+
+
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log("connected to the db")).catch((err) => { console.log(err) });
 
+    
+const swaggerDefinition = {
+    openapi: '3.1.0',
+    info: {
+      title: 'Chat API',
+      version: '1.0.0',
+      description: 'Production Ready NodeJS Chat API',
+    },
+    servers: [
+      {
+        url: `http://localhost:${process.env.PORT}`,
+        description: 'Local server',
+      },
+    ],
+  };
 
+  const swaggerOptions = {
+    swaggerDefinition,
+    apis: ['./routes/*.js', './docs/*.yaml'],
+  };
+
+
+  const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
