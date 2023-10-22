@@ -84,7 +84,7 @@ paths:
     post:
       tags:
         - FCM    
-      summary: Bir FCM tokeni siler
+      summary: Deletes a FCM token
       description: This endpoint is used to delete the FCM token of a specific user.
       security:
         - bearerAuth: []
